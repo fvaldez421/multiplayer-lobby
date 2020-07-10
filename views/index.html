@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/sockets/socket.io.js"></script>
+</head>
+
+<body style="background-color: #333333; color: #ffffff;">
+  <h1>Hello World!</h1>
+  <script type="text/javascript">
+    var socket = io.connect('http://localhost:8080', { path: '/sockets' });
+    socket.on('connect', function (data) {
+      socket.emit('join', 'Hello World from client');
+    });
+
+    socket.on('lobbies-update', data => {
+      console.log('on lobbies update:', { data })
+      socket.emit('game-update', { gameStatus: !data.gameStatus })
+    })
+  </script>
+</body>
+
+</html>
