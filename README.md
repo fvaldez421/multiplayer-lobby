@@ -1,10 +1,10 @@
-# multiplayer_master
+# multiplayer-lobby
 
-This is the api and master controller for the multiplayer backend.
+This is a lobby server for an individual game instance on our [multiplayer hub platform](https://github.com/nad0m/multiplayer-hub)
 
-This server tracks the status of the slave servers (game lobbies), communicates and assigns them with the client side instances.
+The lobby server instances will host individual game sessions.
 
-For the client app check out: https://github.com/fvaldez421/multiplayer_client
+For the client app check out: https://github.com/nad0m/multiplayer-hub
 
 ### To install and run: 
 - Copy the git remote above under *clone or download* dropdown
