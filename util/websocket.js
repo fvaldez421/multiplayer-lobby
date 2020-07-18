@@ -10,7 +10,7 @@ class SocketHandler {
     this.io = null;
     this.handlers = [];
     this.rooms = {};
-    // 
+
     this.setIo = this.setIo.bind(this);
     this._setHandlers = this._setHandlers.bind(this);
 
@@ -77,7 +77,10 @@ class SocketHandler {
 
 
 const sockets = {
-  /** Returns a base SocketHandler Constructor */
+  /** 
+   * Returns a base SocketHandler Instance
+   * This was designed to be used similarly to express route handlers
+  */
   Handler: function (options) {
     console.log('initializing socket handlers:');
     return new SocketHandler(options);

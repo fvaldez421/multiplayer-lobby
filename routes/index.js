@@ -4,6 +4,7 @@ import sockets from '../util/websocket';
 import lobbyRoutes from './api/lobbies';
 import userRoutes from './api/users';
 import clientHandlers from './handlers/client';
+import ticTacToeHandlers from './handlers/ticTacToe'
 
 
 const apiRouter = express.Router();
@@ -18,10 +19,13 @@ apiRouter.use('/api', [
   userRoutes(apiRouter),
 ]);
 
-// client socket handlers
-socketHandler.use([
-  clientHandlers(socketHandler)
-])
+// client socket handlers (no prefix used here)
+socketHandler.use(clientHandlers(socketHandler))
+
+// game session handlers (will have the `/tictactoe` prefix)
+// ex: `<wss url>:port/tictactoe/<event type>`
+socketHandler.use('/tictactoe', ticTacToeHandlers(socketHandler))
+
 
 export {
   socketHandler,
