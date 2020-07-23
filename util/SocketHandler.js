@@ -6,6 +6,8 @@
  */
 class SocketHandler {
   constructor(options) {
+    console.log('initializing socket handlers:');
+
     this.options = { ...options };
     this.io = null;
     this.handlers = [];
@@ -76,15 +78,4 @@ class SocketHandler {
 }
 
 
-const sockets = {
-  /** 
-   * Returns a base SocketHandler Instance
-   * This was designed to be used similarly to express route handlers
-  */
-  Handler: function (options) {
-    console.log('initializing socket handlers:');
-    return new SocketHandler(options);
-  }
-}
-
-export default sockets;
+export default SocketHandler;

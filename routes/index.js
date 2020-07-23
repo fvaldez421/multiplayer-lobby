@@ -1,6 +1,6 @@
 import express from 'express';
 
-import sockets from '../util/websocket';
+import SocketHandler from '../util/SocketHandler';
 import lobbyRoutes from './api/lobbies';
 import userRoutes from './api/users';
 import clientHandlers from './handlers/client';
@@ -8,7 +8,7 @@ import ticTacToeHandlers from './handlers/ticTacToe'
 
 
 const apiRouter = express.Router();
-const socketHandler = sockets.Handler();
+const socketHandler = new SocketHandler();
 
 // test route
 apiRouter.get('', (req, res) => res.json({ message: 'Server is live!' }));
