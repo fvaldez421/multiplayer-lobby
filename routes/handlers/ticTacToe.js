@@ -1,7 +1,6 @@
 // import and use handler helpers here
 import { COMMON_GAME_EVENTS } from "../../config/constants"
 import { TicTacToe } from "../../games"
-
 // global game manager instance
 import GameManager from "../../util/GameManager"
 
@@ -21,22 +20,23 @@ const handlers = socketHandler => {
   const gameHandlers = [
     socketHandler.makeHandler(INITIALIZE, (data, io, socket) => {
       console.log('initializing game:', data)
-      socket.emit('lobbies-update', '🎶 Hello from the seeerrrvvverrr siiiddee!! 🎶')
+
     }),
     socketHandler.makeHandler(START_GAME, (data, io, socket) => {
       console.log('user started game:', data)
-      socket.emit('lobbies-update', '🎶 Hello from the seeerrrvvverrr siiiddee!! 🎶')
+
     }),
     socketHandler.makeHandler(EDIT_GAME, (data, io, socket) => {
       console.log('user edited game:', data)
-      socket.emit('lobbies-update', '🎶 Hello from the seeerrrvvverrr siiiddee!! 🎶')
+
     }),
     socketHandler.makeHandler(JOIN_GAME, (data, io, socket) => {
       console.log('user joined game:', data)
-      socket.emit('lobbies-update', '🎶 Hello from the seeerrrvvverrr siiiddee!! 🎶')
+      socket.emit('users-update', '🎶 Hello from the seeerrrvvverrr siiiddee!! 🎶')
     }),
-    socketHandler.makeHandler(GAME_EVENT, data => {
-      console.log('game update:', data)
+    socketHandler.makeHandler(GAME_EVENT, (data, io, socket) => {
+      console.log('tic tac toe game event:', data)
+      socket.emit('move-update', { position: { ...data } })
     }),
     socketHandler.makeHandler(LEAVE_GAME, data => {
       console.log('user left game:', data)

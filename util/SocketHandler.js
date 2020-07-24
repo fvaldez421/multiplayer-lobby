@@ -35,6 +35,7 @@ class SocketHandler {
       fn: handler
     }));
     this.handlers = this.handlers.concat(parsedHandlers);
+    console.log(this.handlers)
   }
   /** returns an event handler
    * @param {String} eventType
@@ -68,7 +69,6 @@ class SocketHandler {
    */
   _setHandlers(socket) {
     const { handshake: { url, headers: { host } = {} } = {} } = socket;
-    console.log('connection made:', { host, url })
     this.handlers.forEach(({ path, fn }) =>
       socket.on(path, data =>
         fn(data, this.io, socket)

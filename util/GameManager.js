@@ -17,7 +17,10 @@ const getGameClass = type => {
   }
 }
 
-
+/**
+ * Global Game Manager object: Used to manage multiple game sessions across
+ * the entire server
+ */
 class GameManager {
   constructor() {
     this.games = {}
@@ -25,35 +28,44 @@ class GameManager {
     this.endGame = this.endGame.bind(this);
   }
 
-  hasGame(hash = '') {
-    const instance = this.games[hash]
-    if (hash && instance) {
+  hasGame(lobbyHash = '') {
+    const instance = this.games[lobbyHash]
+    if (lobbyHash && instance) {
       return instance.isLive()
     }
+    return false
+  }
+
+  getGame(lobbyHash = '') {
+    const instance = this.games[lobbyHash]
+    if (lobbyHash && instance) {
+      return instance
+    }
+    return null
   }
 
   makeGame(type = '', options = {}) {
-    const { hash } = options
-    if (type && hash) {
+    const { lobbyHash } = options
+    if (type && lobbyHash) {
       try {
         const GameTypeClass = getGameClass(type)
-        const gameInstance = new GameTypeClass(hash)
-        this.games[hash] = gameInstance
-        console.log(`Successfully created game: ${type} at ${hash}`)
+        const gameInstance = new GameTypeClass({ lobbyHash })
+        this.games[lobbyHash] = gameInstance
+        console.log(`Successfully created game: ${type} at ${lobbyHash}`)
       } catch (err) {
-        console.error(`Error creating game ${type} at ${hash}: ${JSON.stringify(err)}`)
+        console.error(`Error creating game ${type} at ${lobbyHash}: ${JSON.stringify(err)}`)
       }
     } else {
-      console.error(`No type: ${type} or hash: ${hash} provided`)
+      console.error(`No type: ${type} or lobbyHash: ${lobbyHash} provided`)
     }
   }
 
-  endGame(hash) {
-    if (hash) {
+  endGame(lobbyHash) {
+    if (lobbyHash) {
       try {
-        this.games[hash].endGame()
+        this.games[lobbyHash].endGame()
       } catch (err) {
-        console.error(`Error ending game at ${hash}: ${JSON.stringify(err)}`)
+        console.error(`Error ending game at ${lobbyHash}: ${JSON.stringify(err)}`)
       }
     }
   }

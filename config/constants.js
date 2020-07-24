@@ -19,7 +19,7 @@ export const COMMON_GAME_EVENTS = {
   POST_MESSAGE: 'post-message'
 }
 
-export const GAME_STATUSES = {
+export const GAME_STATES = {
   // before initalized
   DEFAULT: 'DEFAULT',
   // initalized and awaiting players
