@@ -3,6 +3,7 @@ import { COMMON_GAME_EVENTS } from "../../config/constants"
 import { TicTacToe } from "../../games"
 // global game manager instance
 import GameManager from "../../util/GameManager"
+import { GAME_EVENTS } from "../../games/TicTacToe"
 
 
 const {
@@ -15,6 +16,9 @@ const {
   END_GAME
 } = COMMON_GAME_EVENTS
 
+const {
+  TILE_SELECTED
+} = GAME_EVENTS
 
 const handlers = socketHandler => {
   const gameHandlers = [
@@ -34,9 +38,12 @@ const handlers = socketHandler => {
       console.log('user joined game:', data)
       socket.emit('users-update', '🎶 Hello from the seeerrrvvverrr siiiddee!! 🎶')
     }),
-    socketHandler.makeHandler(GAME_EVENT, (data, io, socket) => {
-      console.log('tic tac toe game event:', data)
-      socket.emit('move-update', { position: { ...data } })
+    socketHandler.makeHandler(TILE_SELECTED, (data, io, socket) => {
+      console.log('tic tac toe tile selected:', data)
+
+      const result = { ...data, value: data.userId === 'player1' ? 'x' : 'o' }
+      
+      socket.emit(TILE_SELECTED, result)
     }),
     socketHandler.makeHandler(LEAVE_GAME, data => {
       console.log('user left game:', data)
