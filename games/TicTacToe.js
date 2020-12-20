@@ -64,7 +64,13 @@ class TicTacToe extends BaseGame {
     if (params.userId && params.hasOwnProperty('index')) {
       console.log(`Tile ${params.index} selected by ${params.userId}`)
       this.blocks[params.index] = this.playerTokens[params.userId]
-      this.emitGameUpdate(GAME_EVENTS.PLAYER_MOVE, this.blocks)
+      this.emitGameUpdate(GAME_EVENTS.PLAYER_MOVE, {
+        turnPlayer: params.userId == this.player1 ? this.player2 : this.player1,
+        player: params.userId,
+        index: params.index,
+        value: this.playerTokens[params.userId],
+        mapUpdate: this.blocks
+      })
     } else {
       console.log(`Invalid userId: ${params.userId} or index: ${params.index}`)
     }
