@@ -6,6 +6,8 @@
  */
 class SocketHandler {
   constructor(options) {
+    console.log('initializing socket handlers:');
+
     this.options = { ...options };
     this.io = null;
     this.handlers = [];
@@ -33,6 +35,7 @@ class SocketHandler {
       fn: handler
     }));
     this.handlers = this.handlers.concat(parsedHandlers);
+    console.log(this.handlers)
   }
   /** returns an event handler
    * @param {String} eventType
@@ -66,7 +69,6 @@ class SocketHandler {
    */
   _setHandlers(socket) {
     const { handshake: { url, headers: { host } = {} } = {} } = socket;
-    console.log('connection made:', { host, url })
     this.handlers.forEach(({ path, fn }) =>
       socket.on(path, data =>
         fn(data, this.io, socket)
@@ -76,15 +78,4 @@ class SocketHandler {
 }
 
 
-const sockets = {
-  /** 
-   * Returns a base SocketHandler Instance
-   * This was designed to be used similarly to express route handlers
-  */
-  Handler: function (options) {
-    console.log('initializing socket handlers:');
-    return new SocketHandler(options);
-  }
-}
-
-export default sockets;
+export default SocketHandler;
