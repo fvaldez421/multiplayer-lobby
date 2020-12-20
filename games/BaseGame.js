@@ -111,7 +111,6 @@ class BaseGame {
   }
 
   emitPlayersUpdate({ ...args }) {
-    console.log('emit players update')
     this.emitGameUpdate(
       COMMON_GAME_EVENTS.PLAYERS_UPDATE,
       { players: this.players, ...args }
