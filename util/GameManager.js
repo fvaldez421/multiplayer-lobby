@@ -24,11 +24,13 @@ const getGameClass = type => {
 class GameManager {
   constructor() {
     this.games = {}
-    this.makeGame = this.makeGame.bind(this);
-    this.endGame = this.endGame.bind(this);
+    this.hasSession = this.hasSession.bind(this)
+    this.getSession = this.getSession.bind(this);
+    this.addSession = this.addSession.bind(this);
+    this.endSession = this.endSession.bind(this);
   }
 
-  hasGame(lobbyHash = '') {
+  hasSession(lobbyHash = '') {
     const instance = this.games[lobbyHash]
     if (lobbyHash && instance) {
       return instance.isLive()
@@ -36,7 +38,7 @@ class GameManager {
     return false
   }
 
-  getGame(lobbyHash = '') {
+  getSession(lobbyHash = '') {
     const instance = this.games[lobbyHash]
     if (lobbyHash && instance) {
       return instance
@@ -44,26 +46,23 @@ class GameManager {
     return null
   }
 
-  makeGame(type = '', options = {}) {
-    const { lobbyHash } = options
-    if (type && lobbyHash) {
+  addSession(lobbyHash, gameInstance) {
+    if (lobbyHash && lobbyHash) {
       try {
-        const GameTypeClass = getGameClass(type)
-        const gameInstance = new GameTypeClass({ lobbyHash })
         this.games[lobbyHash] = gameInstance
-        console.log(`Successfully created game: ${type} at ${lobbyHash}`)
+        console.log(`Successfully added game session: ${gameInstance.gameType} at ${lobbyHash}`)
       } catch (err) {
-        console.error(`Error creating game ${type} at ${lobbyHash}: ${JSON.stringify(err)}`)
+        console.error(`Error adding session: ${gameInstance.gameType} at ${lobbyHash}: ${JSON.stringify(err)}`)
       }
     } else {
-      console.error(`No type: ${type} or lobbyHash: ${lobbyHash} provided`)
+      console.error(`No lobbyHash: ${lobbyHash} or instance: ${gameInstance.gameType} provided`)
     }
   }
 
-  endGame(lobbyHash) {
+  endSession(lobbyHash) {
     if (lobbyHash) {
       try {
-        this.games[lobbyHash].endGame()
+        this.games[lobbyHash].endSession()
       } catch (err) {
         console.error(`Error ending game at ${lobbyHash}: ${JSON.stringify(err)}`)
       }

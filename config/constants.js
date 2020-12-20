@@ -14,22 +14,23 @@ export const COMMON_GAME_EVENTS = {
   END_GAME: 'end-game',
   JOIN_GAME: 'join-game',
   LEAVE_GAME: 'leave-game',
-  GAME_EVENT: 'game-event',
+  PLAYERS_UPDATE: 'players-update',
+	GAME_STATUS_UPDATE:	'game-status-update',
   // to be used once we have chat
   POST_MESSAGE: 'post-message'
 }
 
 export const GAME_STATES = {
   // before initalized
-  DEFAULT: 'DEFAULT',
+  DEFAULT: 'default',
   // initalized and awaiting players
-  IN_LOBBY: 'IN_LOBBY',
+  IN_LOBBY: 'in-lobby',
   // loading/awaiting for players to connect
-  STARTING: 'STARTING',
+  STARTING: 'starting',
   // game in progress
-  IN_PROGRESS: 'IN_PROGRESS',
+  IN_PROGRESS: 'in-progress',
   // game ended
-  ENDED: 'ENDED',
+  COMPLETE: 'complete',
   // something went wrong...
-  ERROR: 'ERROR'
+  ERROR: 'error'
 }
