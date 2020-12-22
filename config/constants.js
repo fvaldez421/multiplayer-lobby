@@ -12,6 +12,8 @@ export const COMMON_GAME_EVENTS = {
   START_GAME: 'start-game',
   EDIT_GAME: 'edit-game',
   END_GAME: 'end-game',
+  COMPLETE_GAME: 'complete-game',
+  RESET_GAME: 'reset-game',
   JOIN_GAME: 'join-game',
   LEAVE_GAME: 'leave-game',
   PLAYERS_UPDATE: 'players-update',

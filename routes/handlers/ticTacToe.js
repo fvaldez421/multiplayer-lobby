@@ -3,7 +3,7 @@ import { COMMON_GAME_EVENTS } from "../../config/constants"
 import { TicTacToe } from "../../games"
 // global game manager instance
 import GameManager from "../../util/GameManager"
-import { GAME_EVENTS } from "../../games/TicTacToe"
+import { GAME_EVENTS as GAME_EVENTS_3T } from "../../games/TicTacToe"
 
 
 const {
@@ -12,13 +12,13 @@ const {
   EDIT_GAME,
   JOIN_GAME,
   LEAVE_GAME,
-  GAME_EVENT,
+  RESET_GAME,
   END_GAME
 } = COMMON_GAME_EVENTS
 
 const {
   PLAYER_MOVE
-} = GAME_EVENTS
+} = GAME_EVENTS_3T
 
 const makeSessionHandler = handler => (data, io, socket) => {
   if (data.lobbyHash) {
@@ -41,7 +41,7 @@ const handlers = socketHandler => {
         console.log('making a new session:', { lobbyHash: data.lobbyHash })
         session = new TicTacToe(io, { lobbyHash: data.lobbyHash })
         if (session) {
-          session.initialize({ updater: (...args) => console.log('this is a timer update', new Date().getTime(), ...args) })
+          session.initialize()
           GameManager.addSession(data.lobbyHash, session)
         } else {
           console.log('Error making game session')
@@ -61,6 +61,9 @@ const handlers = socketHandler => {
     })),
     socketHandler.makeHandler(PLAYER_MOVE, makeSessionHandler((session, socket, data) => {
       session.handleTileSelected(data)
+    })),
+    socketHandler.makeHandler(RESET_GAME, makeSessionHandler((session, socket, data) => {
+      session.handleInitializeGame(data)
     })),
     socketHandler.makeHandler(LEAVE_GAME, data => {
       console.log('user left game:', data)
