@@ -20,6 +20,23 @@ const {
   PLAYER_MOVE
 } = GAME_EVENTS_3T
 
+// add session verification before prod
+const initGameSession = (data, io, socket) => {
+  let session = GameManager.getSession(data.lobbyHash)
+  if (!session) {
+    console.log('making a new session:', { lobbyHash: data.lobbyHash })
+    session = new TicTacToe(io, { lobbyHash: data.lobbyHash })
+    if (session) {
+      session.initialize()
+      GameManager.addSession(data.lobbyHash, session)
+    } else {
+      console.log('Error making game session')
+    }
+  } else {
+    console.log(`Tic Tac Toe Lobby: ${data.lobbyHash} exists`)
+  }
+}
+
 const makeSessionHandler = handler => (data, io, socket) => {
   if (data.lobbyHash) {
     const session = GameManager.getSession(data.lobbyHash)
@@ -27,6 +44,7 @@ const makeSessionHandler = handler => (data, io, socket) => {
       handler(session, socket, data)
     } else {
       console.log(`Tic Tac Toe lobby: ${data.lobbyHash} not found`)
+      initGameSession(data, io, socket)
     }
   } else {
     console.log(`invalid lobby hash: ${data.lobbyHash}`)
@@ -36,19 +54,7 @@ const makeSessionHandler = handler => (data, io, socket) => {
 const handlers = socketHandler => {
   const gameHandlers = [
     socketHandler.makeHandler(INITIALIZE, (data, io, socket) => {
-      let session = GameManager.getSession(data.lobbyHash)
-      if (!session) {
-        console.log('making a new session:', { lobbyHash: data.lobbyHash })
-        session = new TicTacToe(io, { lobbyHash: data.lobbyHash })
-        if (session) {
-          session.initialize()
-          GameManager.addSession(data.lobbyHash, session)
-        } else {
-          console.log('Error making game session')
-        }
-      } else {
-        console.log(`Tic Tac Toe Lobby: ${data.lobbyHash} exists`)
-      }
+      initGameSession(data, io, socket)
     }),
     socketHandler.makeHandler(START_GAME, (data, io, socket) => {
       console.log('user started game:', data)

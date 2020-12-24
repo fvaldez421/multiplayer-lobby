@@ -13,7 +13,12 @@ import { SOCKET_PATH } from '../config/constants';
 dotenv.config()
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, { path: SOCKET_PATH });
+const io = socketIo(server, {
+  path: SOCKET_PATH,
+  cors: {
+    origin: '*'
+  }
+});
 socketHandler.setIo(io);
 
 // encode and parse our request data
