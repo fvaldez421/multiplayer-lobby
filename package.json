@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon --exec babel-node server",
-    "start:prod": "babel-node server"
+    "start:prod": "babel-node server",
+    "deploy": "gcloud app deploy -q --version=script-deploy --no-promote"
   },
   "author": "Frank Valdez",
   "license": "MIT",

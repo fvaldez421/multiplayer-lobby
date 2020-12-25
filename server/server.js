@@ -11,6 +11,7 @@ import { SOCKET_PATH } from '../config/constants';
 
 
 dotenv.config()
+console.log(process.env)
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
