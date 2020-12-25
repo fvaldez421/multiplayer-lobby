@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon --exec babel-node server",
-    "start:prod": "babel-node server"
+    "start:prod": "babel-node server",
+    "deploy": "gcloud app deploy -q --version=script-deploy --no-promote"
   },
   "author": "Frank Valdez",
   "license": "MIT",
@@ -22,7 +23,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.8.10",
     "morgan": "^1.9.1",
-    "socket.io": "^2.3.0",
+    "socket.io": "^3.0.4",
     "uuid": "^8.0.0"
   },
   "devDependencies": {
