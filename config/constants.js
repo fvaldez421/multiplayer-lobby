@@ -1,6 +1,4 @@
 
-export const PORT = process.env.PORT || 8080;
-
 export const SOCKET_PATH = '/sockets'
 
 export const GAME_TYPES = {
