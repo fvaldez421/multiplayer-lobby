@@ -51,8 +51,8 @@ class TicTacToe extends BaseGame {
 
   // emits an initialize game update to clients
   handleInitializeGame(data = null) {
-    console.log('emit initialize game')
-    if (!!data) console.log(`Game reset by: ${data.userId}`)
+    console.log('\nemit initialize game')
+    if (!!data) console.log(`\nGame reset by: ${data.userId}`)
     this.turnPlayerId = null
     this.winnerId = null
     this.blocks = new Array(9).fill(undefined)
@@ -63,8 +63,8 @@ class TicTacToe extends BaseGame {
         resetPlayerId: data?.userId && data.userId,
         players: this.players,
         playerTokens: {
-          [this.player1]: this.player1.token,
-          [this.player2]: this.player2.token
+          [this.player1.userId]: this.player1.token,
+          [this.player2.userId]: this.player2.token
         },
         mapUpdate: this.blocks
       }
@@ -95,6 +95,7 @@ class TicTacToe extends BaseGame {
     ) {
       this.emitGameUpdate(COMMON_GAME_EVENTS.GAME_STATUS_UPDATE, {
         winnerId: this.winnerId,
+        winnerData: this.players[this.winnerId],
         nextPlayerId: this.turnPlayerId,
         mapUpdate: this.blocks
       })
@@ -122,7 +123,7 @@ class TicTacToe extends BaseGame {
     }
     if (winnerId) {
       this.winnerId = winnerId
-      console.log(`Game complete, winner: ${winnerId}`)
+      console.log(`\nGame complete, winner: ${winnerId}`)
       this.emitGameUpdate(
         COMMON_GAME_EVENTS.COMPLETE_GAME,
         { winnerId, winnerData: this.players[winnerId] }
@@ -133,11 +134,11 @@ class TicTacToe extends BaseGame {
   // handles when player tile selection
   handleTileSelected(params) {
     if (this.gameStatus !== GAME_STATES.IN_PROGRESS) {
-      console.log('Turn attempted but game not yet initialized')
+      console.log('\nTurn attempted but game not yet initialized')
       return
     }
     if (!this.turnPlayerId) {
-      console.log(`No turn player set. Setting ${params.userId} as turn player.`)
+      console.log(`\nNo turn player set. Setting ${params.userId} as turn player.`)
       this.turnPlayerId = params.userId
     }
     if (
@@ -157,7 +158,7 @@ class TicTacToe extends BaseGame {
       })
       this.checkGameState()
     } else {
-      console.log(`Invalid userId: ${params.userId} or index: ${params.index}`)
+      console.log(`\nInvalid userId: ${params.userId} or index: ${params.index}`)
     }
   }
 }

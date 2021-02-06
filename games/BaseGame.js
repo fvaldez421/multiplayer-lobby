@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import { GAME_STATES, COMMON_GAME_EVENTS } from "../config/constants"
 
 
@@ -65,7 +66,9 @@ class BaseGame {
     this.emitGameUpdate = this.emitGameUpdate.bind(this)
     this.emitPlayersUpdate = this.emitPlayersUpdate.bind(this)
 
+    this.debugEnabled = !!(process?.env?.NODE_ENV === 'development' && process?.env?.DEBUG_ENABLE)
     console.log("Successfully created game instance")
+    if (this.debugEnabled) console.log(chalk.yellowBright('___________ DEBUG ENABLED ___________'))
   }
   // checks if game is not down
   isLive() {
@@ -107,6 +110,9 @@ class BaseGame {
 
   emitGameUpdate(type, data) {
     console.log(`emit game update: ${type} to ${this.lobbyHash}`)
+    if (this.debugEnabled) {
+      console.log(chalk.yellowBright(`___________ DEBUG: ${this.lobbyHash} ${type}`), data)
+    }
     this.io.to(this.lobbyHash).emit(type, data)
   }
 
